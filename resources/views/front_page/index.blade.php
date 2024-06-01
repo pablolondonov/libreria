@@ -10,7 +10,7 @@
     <form action="{{ url('/')}}" method="post">
         @csrf
 
-         <input type="text" name="libro" id="libro">
+         <input type="text" name="name" id="name">
 
          <input type="submit" value="agregar libro">
 

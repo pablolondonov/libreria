@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Book;
 use App\Models\task;
 use Illuminate\Http\Request;
 
@@ -28,7 +29,9 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        print_r($_POST);
+        $name= request()->all();
+        Book::create($name);
+        return redirect('/');
     }
 
     /**

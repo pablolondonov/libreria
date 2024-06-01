@@ -7,11 +7,12 @@
     <title>libreria</title>
 </head>
 <body>
-    <form action="" method="post">
+    <form action="{{ url('/')}}" method="post">
+        @csrf
 
          <input type="text" name="libro" id="libro">
 
-         <input type="button" value="enviar">
+         <input type="submit" value="agregar libro">
 
     </form>
     

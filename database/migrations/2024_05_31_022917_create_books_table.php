@@ -19,9 +19,7 @@ return new class extends Migration
             $table->string('published_date');
             $table->string('genre');
             $table->string('description');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->timestamps();
-            
+            $table->timestamps();   
         });
     }
 

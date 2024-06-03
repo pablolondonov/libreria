@@ -10,14 +10,19 @@
     <link href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" 
+integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
-    <h1>INDEX</h1>
-
-    <!-- Botón para ir a la vista de creación -->
-    <a href="{{ route('books.create') }}">Crear Nuevo Libro</a>
-
+    <h1>BOOKS LIST</h1>
+    <br>
+    <button type="button" class="btn btn-success" id="successButton"><i class="bi bi-book"></i> Create a New Book</button>
+    <br>
+    <br>
     <!-- Tabla para mostrar los libros -->
+    <div style="border: 2px solid black; padding: 10px;">
     <table id="books-table">
         <thead>
             <tr>
@@ -40,27 +45,47 @@
                     <td>{{ $book->genre }}</td>
                     <td>{{ $book->description }}</td>
                     <td>
-                        <!-- Botón para ir a la vista de edición -->
-                        <a href="{{ route('books.edit', $book->id) }}">Editar</a>
-                        
-                        <!-- Formulario para eliminar el libro -->
-                        <form action="{{ route('books.destroy', $book->id) }}" method="POST" style="display: inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit">Borrar</button>
-                        </form>
+                    @if(isset($book))
+                        <button type="button" class="btn btn-warning" id="editButton"><i class="bi bi-pencil"></i> Editar</button>
+                    <form id="deleteForm" action="{{ route('books.destroy', $book->id) }}" method="POST" style="display: inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button id="deleteButton" type="button" class="btn btn-danger"><i class="bi bi-trash"></i> Eliminar</button>
+                    </form>
+                    <script>
+                        var bookId = @json($book->id);
+
+                        document.getElementById('editButton').addEventListener('click', function() {
+                        window.location.href = "{{ route('books.edit', ':id') }}".replace(':id', bookId);
+                        });
+                    </script>
+                    @endif
                     </td>
                 </tr>
             @endforeach
         </tbody>
     </table>
-
+    </div>
     <!-- Script para inicializar DataTables -->
     <script>
+
         $(document).ready(function() {
             $('#books-table').DataTable();
         });
+
+        document.getElementById('successButton').addEventListener('click', function() {
+            window.location.href = "{{ route('books.create') }}";
+        });
+
+        var deleteButton = document.getElementById('deleteButton');
+        var deleteForm = document.getElementById('deleteForm');
+            deleteButton.addEventListener('click', function() {
+            deleteForm.submit();
+    });
     </script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
+integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
 </body>
 </html>
 
